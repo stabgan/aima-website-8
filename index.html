@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/cards.css" />
     <script src="https://cdn.firebase.com/js/client/2.2.0/firebase.js"></script>
+    <!-- Note: Firebase v2 SDK is deprecated. See README for migration guidance. -->
     <script src="fbtoform.js"></script>
 
       
@@ -155,7 +156,7 @@
       
     <span class="bottom">
         
-        <p><br />Designed by <a href="https://github.com/kaustabhganguly" > Kaustabh Ganguly</a> </p>
+        <p><br />Designed by <a href="https://github.com/stabgan" > Kaustabh Ganguly</a> </p>
         
     </span>
     
@@ -163,6 +164,9 @@
 <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
 <script>
   // Initialize Firebase
+  // SECURITY NOTE: Move these credentials to environment variables for production use.
+  // Firebase API keys are safe to expose in client-side code only when proper
+  // Firebase Security Rules are configured to restrict database access.
   var config = {
     apiKey: "AIzaSyDJQJqHjkyOct0LWok8T5W4kUPI4IeJyLQ",
     authDomain: "aima-website-8.firebaseapp.com",
@@ -203,8 +207,8 @@
     };
     function signup(formObj) {
         // Store emails to firebase
-        var myFirebaseRef = new Firebase("https://aima-website-8.firebaseio.com/signups");
-        myFirebaseRef.push({
+        var signupsRef = firebase.database().ref("signups");
+        signupsRef.push({
           email: formObj.email.value,
         }, onSignupComplete);
         signupBtn.disabled = true;
@@ -242,9 +246,9 @@
       }
     };
     function sendMessage(formObj) {
-        // Store emails to firebase
-        var myFirebaseRef = new Firebase("https://aima-website-8.firebaseio.com/messages");
-        myFirebaseRef.push({
+        // Store messages to firebase
+        var messagesRef = firebase.database().ref("messages");
+        messagesRef.push({
           name: formObj.name.value,
           email: formObj.email.value,
           message: formObj.message.value
